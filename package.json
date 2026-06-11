@@ -1,0 +1,16 @@
+{
+  "name": "marmoraria-landing-page",
+  "version": "1.0.0",
+  "description": "Landing page de alto padrão para marmoraria com efeitos de scroll e navbar flutuante.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y browser-sync start --server --files \"*.html, *.css, *.js, frame/*\" --port 3000"
+  },
+  "keywords": [
+    "marmoraria",
+    "landing-page",
+    "premium"
+  ],
+  "author": "",
+  "license": "ISC"
+}

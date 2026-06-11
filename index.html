@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Marmoreal - Rochas Nobres de Alto Padrão. Especialistas em mármores, granitos e quartzitos sob medida para projetos residenciais e comerciais de luxo.">
+    <title>Videira | Rochas Nobres & Projetos sob Medida</title>
+    <link rel="shortcut icon" href="logo/logo.webp" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="swup" class="transition-fade">
+
+        <!-- Header & Navigation -->
+        <header class="main-header">
+            <nav class="navbar" id="main-navbar">
+                <a href="#" class="logo" id="nav-logo">
+                    <span class="logo-accent">V</span>ideira
+                </a>
+                <ul class="nav-links" id="nav-menu">
+                    <li><a href="#apresentacao" class="nav-link active">Apresentação</a></li>
+                    <li><a href="#produtos" class="nav-link">Nossos Produtos</a></li>
+                    <li><a href="#trabalhos" class="nav-link">Serviços</a></li>
+                    <li><a href="#contato" class="nav-link btn-contact">Orçamento</a></li>
+                </ul>
+                <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- SECTION 1: APRESENTAÇÃO (Canvas Scroll Sequence) -->
+            <section id="apresentacao" class="section hero-section">
+                <div class="canvas-container">
+                    <canvas id="hero-canvas"></canvas>
+                    <div class="image-overlay dark-overlay"></div>
+                </div>
+
+                <!-- Floating Hero Content -->
+                <div class="hero-content">
+                    <span class="hero-subtitle">Mármores, Granitos & Quartzitos</span>
+                    <h1 class="hero-title">Onde a Natureza Se Torna Arte</h1>
+                    <p class="hero-description">Transformamos pedras brutas em obras-primas esculpidas sob medida para
+                        sua
+                        residência ou empresa. Sofisticação e precisão em cada detalhe.</p>
+                    <div class="hero-actions">
+                        <a href="#produtos" class="btn btn-primary" id="btn-explore">Explorar Catálogo</a>
+                        <a href="#contato" class="btn btn-outline" id="btn-quote">Falar com Consultor</a>
+                    </div>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div class="scroll-indicator">
+                    <span class="scroll-text">Role para explorar</span>
+                    <div class="scroll-mouse">
+                        <div class="scroll-wheel"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: PRODUTOS (Product Cards) -->
+            <section id="produtos" class="section products-section">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Coleções Exclusivas</span>
+                        <h2 class="section-title">Nossas Rochas Selecionadas</h2>
+                        <div class="title-divider"></div>
+                        <p class="section-subtitle">Dispomos de um catálogo com materiais nacionais e importados de
+                            altíssima qualidade.</p>
+                    </div>
+
+                    <!-- Product Grid Container -->
+                    <div class="products-grid" id="products-container">
+
+                        <!-- Card 1: Carrara -->
+                        <div class="product-card scroll-reveal">
+                            <div class="product-image-container">
+                                <img src="Trabalhos/PretoViaLactea/hero.jpeg" alt="Mármore Preto Via Láctea"
+                                    class="product-img">
+                                <div class="product-hover-overlay">
+                                    <a href="carrara.html" class="product-view-btn"><i
+                                            class="fa-solid fa-magnifying-glass"></i> Detalhes</a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-origin">Importado - Itália</span>
+                                <h3 class="product-title">Preto Via Láctea</h3>
+                                <p class="product-desc">O clássico absoluto. Fundo preto puro com veios cinzas
+                                    característicos que trazem luminosidade e nobreza.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Nero Marquina -->
+                        <div class="product-card scroll-reveal">
+                            <div class="product-image-container">
+                                <img src="frame/IMG4.jpg" alt="Mármore Nero Marquina" class="product-img">
+                                <div class="product-hover-overlay">
+                                    <a href="espanha.html" class="product-view-btn"><i
+                                            class="fa-solid fa-magnifying-glass"></i> Detalhes</a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-origin">Importado - Espanha</span>
+                                <h3 class="product-title">Nero Marquina</h3>
+                                <p class="product-desc">Elegância em preto profundo com marcantes veios brancos.
+                                    Contraste
+                                    dramático para ambientes modernos.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Calacatta  -->
+                        <div class="product-card scroll-reveal">
+                            <div class="product-image-container">
+                                <img src="Trabalhos/Calacata/sectioncard.webp" alt="quartz calacatta"
+                                    class="product-img">
+                                <div class="product-hover-overlay">
+                                    <a href="calacatta.html" class="product-view-btn"><i
+                                            class="fa-solid fa-magnifying-glass"></i> Detalhes</a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-origin">Importado - Itália</span>
+                                <h3 class="product-title">quartz calacatta</h3>
+                                <p class="product-desc">Raridade e sofisticação. Veios marcantes em tons cinza
+                                    sobre um fundo branco impecável.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Quartzito Taj Mahal -->
+                        <div class="product-card scroll-reveal">
+                            <div class="product-image-container">
+                                <img src="frame/IMG6.jpg" alt="Quartzito Taj Mahal" class="product-img">
+                                <div class="product-hover-overlay">
+                                    <a href="tajmahal.html" class="product-view-btn"><i
+                                            class="fa-solid fa-magnifying-glass"></i> Detalhes</a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-origin">Nacional - Brasil</span>
+                                <h3 class="product-title">Quartzito Taj Mahal</h3>
+                                <p class="product-desc">Extrema dureza com visual que remete ao mármore. Tons de creme
+                                    suaves e veios translúcidos refinados.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Verde Alpi -->
+                        <div class="product-card scroll-reveal">
+                            <div class="product-image-container">
+                                <img src="Trabalhos/VerdeAlpi/header_Verde.jpeg" alt="Mármore Verde Alpi"
+                                    class="product-img">
+                                <div class="product-hover-overlay">
+                                    <a href="verdealpi.html" class="product-view-btn"><i
+                                            class="fa-solid fa-magnifying-glass"></i> Detalhes</a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-origin">Importado - Itália</span>
+                                <h3 class="product-title">Verde Alpi</h3>
+                                <p class="product-desc">Tom verde floresta profundo com veios claros e escuros. Ideal
+                                    para
+                                    peças de destaque e designs luxuosos.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Travertino  -->
+                        <div class="product-card scroll-reveal">
+                            <div class="product-image-container">
+                                <img src="Trabalhos/Travertino/sectioncard.webp" alt="Mármore Travertino "
+                                    class="product-img">
+                                <div class="product-hover-overlay">
+                                    <a href="travertino.html" class="product-view-btn"><i
+                                            class="fa-solid fa-magnifying-glass"></i> Detalhes</a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-origin">Importado - Roma</span>
+                                <h3 class="product-title">Travertino </h3>
+                                <p class="product-desc">Visual rústico refinado com textura marcante e tons beges
+                                    quentes.
+                                    Um clássico da arquitetura atemporal.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- SECTION 3: TRABALHOS REALIZADOS (Services/Works done) -->
+            <section id="trabalhos" class="section works-section">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="section-tag">Nossa Expertise</span>
+                        <h2 class="section-title">Trabalhos Realizados</h2>
+                        <div class="title-divider"></div>
+                        <p class="section-subtitle">Projetos sob medida executados com maquinário de alta precisão e
+                            acabamento artesanal.</p>
+                    </div>
+
+                    <!-- Works Carousel with Testimonials -->
+                    <div class="works-carousel-wrapper scroll-reveal">
+                        <div class="works-carousel-track">
+                            <!-- Slide 1: Cozinhas -->
+                            <div class="works-carousel-slide active" data-slide="0">
+                                <div class="work-item">
+                                    <div class="work-content">
+                                        <span class="work-number">01</span>
+                                        <h3 class="work-title">Cozinhas & Áreas Gourmet</h3>
+                                        <p class="work-desc">Bancadas, ilhas integradas e frontões esculpidos com
+                                            acabamentos impermeabilizados de alta durabilidade. Seleção de materiais
+                                            resistentes a riscos e altas temperaturas para funcionalidade máxima.</p>
+                                        <ul class="work-features" style="margin-bottom: 20px;">
+                                            <li><i class="fa-solid fa-check text-gold"></i> Cubas esculpidas em
+                                                meia-esquadria invisível</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Acabamentos de borda
+                                                bisotados ou retos</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Tratamento impermeabilizante
+                                                de alta performance</li>
+                                        </ul>
+                                        <!-- Testimonial -->
+                                        <div class="work-testimonial">
+                                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                            <p class="testimonial-text">"A bancada da minha cozinha em Preto Via Láctea
+                                                ficou espetacular! O acabamento em meia-esquadria é imperceptível.
+                                                Recomendo muito!"</p>
+                                            <div class="testimonial-author">
+                                                <span class="author-name">Mariana Souza</span>
+                                                <span class="author-title">Proprietária Residência Alpha</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="work-image-container reveal-scale">
+                                        <img src="Trabalhos/PretoViaLactea/card.jpg" alt="Bancada de cozinha em mármore"
+                                            class="work-img scroll-zoom">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: Banheiros -->
+                            <div class="works-carousel-slide" data-slide="1">
+                                <div class="work-item alt-layout">
+                                    <div class="work-image-container reveal-scale">
+                                        <img src="Trabalhos/MarmoreBranco/Mármore Dolomítico Branco.jfif"
+                                            alt="Banheiro de luxo revestido em mármore" class="work-img scroll-zoom">
+                                    </div>
+                                    <div class="work-content">
+                                        <span class="work-number">02</span>
+                                        <h3 class="work-title">Banheiros & Lavatórios de Luxo</h3>
+                                        <p class="work-desc">Lavatórios esculpidos de coluna ou flutuantes, nichos
+                                            embutidos para box e revestimentos de piso e parede que transformam
+                                            banheiros em spas privativos refinados.</p>
+                                        <ul class="work-features" style="margin-bottom: 20px;">
+                                            <li><i class="fa-solid fa-check text-gold"></i> Cubas com escoamento oculto
+                                            </li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Nichos organizadores
+                                                perfeitamente alinhados</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Paginação de veios
+                                                (Bookmatching)</li>
+                                        </ul>
+                                        <!-- Testimonial -->
+                                        <div class="work-testimonial">
+                                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                            <p class="testimonial-text">"Transformaram meu banheiro em um verdadeiro
+                                                spa. O mármore dolomítico branco deu uma luminosidade e elegância
+                                                incríveis ao ambiente."</p>
+                                            <div class="testimonial-author">
+                                                <span class="author-name">Dr. André Costa</span>
+                                                <span class="author-title">Clínica Dermatológica</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: Escadas -->
+                            <div class="works-carousel-slide" data-slide="2">
+                                <div class="work-item">
+                                    <div class="work-content">
+                                        <span class="work-number">03</span>
+                                        <h3 class="work-title">Escadas & Pisos de Grande Formato</h3>
+                                        <p class="work-desc">Degraus plissados, escadas flutuantes e pisos com paginação
+                                            contínua. Estrutura monumental planejada com cortes milimétricos para
+                                            valorizar a continuidade dos veios naturais.</p>
+                                        <ul class="work-features" style="margin-bottom: 20px;">
+                                            <li><i class="fa-solid fa-check text-gold"></i> Degraus com friso
+                                                antiderrapante e iluminação embutida</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Instalação com juntas
+                                                mínimas quase imperceptíveis</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Polimento de alto brilho
+                                                realizado no local</li>
+                                        </ul>
+                                        <!-- Testimonial -->
+                                        <div class="work-testimonial">
+                                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                            <p class="testimonial-text">"A escada de Calacatta Gold é a obra de arte da
+                                                minha sala. Os veios perfeitamente alinhados mostram o capricho da
+                                                execução."</p>
+                                            <div class="testimonial-author">
+                                                <span class="author-name">Helena & Roberto</span>
+                                                <span class="author-title">Condomínio Tamboré</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="work-image-container reveal-scale">
+                                        <img src="Trabalhos/Calacata/card.jfif"
+                                            alt="Escadaria moderna revestida de mármore" class="work-img scroll-zoom">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: Painéis -->
+                            <div class="works-carousel-slide" data-slide="3">
+                                <div class="work-item alt-layout">
+                                    <div class="work-image-container reveal-scale">
+                                        <img src="Trabalhos/PretoEscovado/Preto São Gabriel Escovado.jfif"
+                                            alt="Painel de TV e lareira em mármore retroiluminado"
+                                            class="work-img scroll-zoom">
+                                    </div>
+                                    <div class="work-content">
+                                        <span class="work-number">04</span>
+                                        <h3 class="work-title">Painéis de TV, Lareiras & Fachadas</h3>
+                                        <p class="work-desc">Painéis retroiluminados em ônix ou mármores translúcidos,
+                                            revestimentos de lareiras com isolamento térmico e fachadas comerciais
+                                            imponentes que causam impacto imediato.</p>
+                                        <ul class="work-features" style="margin-bottom: 20px;">
+                                            <li><i class="fa-solid fa-check text-gold"></i> Sistemas de retroiluminação
+                                                em LED</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Cortes especiais em Waterjet
+                                                (jato d'água de precisão)</li>
+                                            <li><i class="fa-solid fa-check text-gold"></i> Estruturas metálicas de
+                                                reforço integradas</li>
+                                        </ul>
+                                        <!-- Testimonial -->
+                                        <div class="work-testimonial">
+                                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                            <p class="testimonial-text">"A parede com o painel em Preto São Gabriel
+                                                Escovado ficou muito elegante. O trabalho de retroiluminação trouxe uma
+                                                sofisticação única."</p>
+                                            <div class="testimonial-author">
+                                                <span class="author-name">Carlos Eduardo</span>
+                                                <span class="author-title">Arquiteto de Interiores</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+            </section>
+
+            <!-- CTA/Contact Section -->
+            <section id="contato" class="section contact-section">
+                <div class="container">
+                    <div class="contact-card">
+                        <div class="contact-info-panel">
+                            <h2 class="contact-title">Dê Vida ao Seu Projeto</h2>
+                            <p class="contact-desc">Nossa equipe de especialistas está pronta para orientar na escolha
+                                da rocha ideal e criar um orçamento sob medida para sua obra.</p>
+
+                            <div class="contact-details">
+                                <div class="contact-detail-item">
+                                    <div class="detail-icon"><i class="fa-solid fa-phone"></i></div>
+                                    <div class="detail-content">
+                                        <span>Telefone / WhatsApp</span>
+                                        <a href="https://wa.me/11975030220"><strong>+55 (11) 99999-9999</strong></a>
+                                    </div>
+                                </div>
+                                <div class="contact-detail-item">
+                                    <div class="detail-icon"><i class="fa-solid fa-envelope"></i></div>
+                                    <div class="detail-content">
+                                        <span>E-mail</span>
+                                        <strong><a
+                                                href="mailto:jonathan@marmorariavideira.com.br">jonathan@marmorariavideira.com.br</a></strong>
+                                    </div>
+                                </div>
+                                <div class="contact-detail-item">
+                                    <div class="detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                    <div class="detail-content">
+                                        <span>Endereço </span>
+                                        <a href="https://www.google.com/maps/dir//Marmoraria+Videira,+Zap+(11+-+Av.+Alberto+Soares+Sampaio,+776+-+97107.9312+-+Capuava,+Mau%C3%A1+-+SP,+09380-000/@-23.6781568,-46.4748544,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x94ce690c86314ae9:0xe305b53edf857101!2m2!1d-46.4725083!2d-23.6610715?entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D"
+                                            target="_blank" rel="noopener noreferrer">Av. Alberto Soares Sampaio, 776 -
+                                            Capuava, Mauá - SP</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-form-panel">
+                            <form id="quote-form">
+                                <div class="form-group">
+                                    <label for="form-name">Nome Completo</label>
+                                    <input type="text" id="form-name" placeholder="Ex: Roberto Silva" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="form-email">E-mail</label>
+                                        <input type="email" id="form-email" placeholder="Ex: roberto@gmail.com"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form-phone">WhatsApp</label>
+                                        <input type="tel" id="form-phone" placeholder="Ex: (11) 99999-9999" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-stone">Tipo de Pedra de Interesse</label>
+                                    <select id="form-stone">
+                                        <option value="">Selecione uma opção...</option>
+                                        <option value="carrara">Mármore Bianco Carrara</option>
+                                        <option value="marquina">Mármore Nero Marquina</option>
+                                        <option value="calacatta">Mármore Calacatta Gold</option>
+                                        <option value="tajmahal">Quartzito Taj Mahal</option>
+                                        <option value="verdealpi">Mármore Verde Alpi</option>
+                                        <option value="travertino">Mármore Travertino Romano</option>
+                                        <option value="outra">Outro / Não sei</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-message">Detalhes do Projeto</label>
+                                    <textarea id="form-message" rows="4"
+                                        placeholder="Descreva brevemente o projeto (Ex: Bancada de cozinha de 3 metros com cuba esculpida)"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block" id="btn-submit-form">Solicitar
+                                    Orçamento Grátis</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="container footer-grid">
+                <div class="footer-col-about">
+                    <span class="footer-logo"><span class="logo-accent">V</span>ideira</span>
+                    <p>A Videira combina engenharia moderna com a beleza milenar das rochas naturais para entregar o
+                        mais alto padrão em acabamento e design.</p>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/jonathan_marmoraria_videira/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/marmorariavideirajonathan/?locale=pt_BR" target="_blank"
+                            rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col-links">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#apresentacao">Início</a></li>
+                        <li><a href="#produtos">Materiais</a></li>
+                        <li><a href="#trabalhos">Portfólio</a></li>
+                        <li><a href="#contato">Orçamento</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col-hours">
+                    <h3>Horário de Atendimento</h3>
+                    <p>Segunda a Sexta: 08:00 às 18:00</p>
+                    <p>Sábado: 09:00 às 13:00</p>
+                    <p>Atendimento comercial e showroom físico.</p>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p>&copy; 2026 Marmoraria Videira. Todos os direitos reservados. Desenvolvimento de Alto Padrão.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
