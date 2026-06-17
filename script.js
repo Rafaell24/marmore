@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     /* ==========================================================================
@@ -97,111 +99,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
-       GSAP + CANVAS HERO SCROLL SEQUENCE
+       GSAP + VIDEO HERO SCROLL SEQUENCE
        ========================================================================== */
     gsap.registerPlugin(ScrollTrigger);
 
-    const canvas = document.getElementById('hero-canvas');
-    const context = canvas.getContext('2d');
+    const video = document.getElementById('hero-video');
 
-    const frameCount = 147;
-    const preloadedImages = [];
-    let currentFrameIndex = 0;
+    function initVideoScrub() {
+        if (!video) return;
 
-    // Cover rendering logic
-    function renderFrame(index) {
-        if (!preloadedImages[index]) return;
-        currentFrameIndex = index;
-        const img = preloadedImages[index];
+        // Ensure video is muted and paused
+        video.muted = true;
+        video.pause();
 
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-
-        // Clear canvas
-        context.clearRect(0, 0, w, h);
-
-        const canvasRatio = w / h;
-        const imgRatio = img.width / img.height;
-
-        let drawWidth, drawHeight, drawX, drawY;
-
-        if (canvasRatio > imgRatio) {
-            drawWidth = w;
-            drawHeight = w / imgRatio;
-            drawX = 0;
-            drawY = (h - drawHeight) / 2;
+        if (video.readyState >= 1) {
+            setupVideoScrollTrigger();
         } else {
-            drawWidth = h * imgRatio;
-            drawHeight = h;
-            drawX = (w - drawWidth) / 2;
-            drawY = 0;
-        }
-
-        context.drawImage(img, drawX, drawY, drawWidth, drawHeight);
-    }
-
-    function resizeCanvas() {
-        const scale = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * scale;
-        canvas.height = window.innerHeight * scale;
-        context.scale(scale, scale);
-        renderFrame(currentFrameIndex);
-    }
-
-    // Preload all 25 images
-    function preloadImages(callback) {
-        let loadedCount = 0;
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            img.src = `frame/IMG${i}.jpg`;
-            img.onload = () => {
-                loadedCount++;
-                preloadedImages[i - 1] = img;
-
-                // Render frame 0 immediately when loaded
-                if (i === 1 && currentFrameIndex === 0) {
-                    renderFrame(0);
-                }
-
-                if (loadedCount === frameCount) {
-                    callback();
-                }
-            };
-            img.onerror = () => {
-                console.error(`Error preloading image frame/IMG${i}.jpg`);
-                loadedCount++;
-                if (loadedCount === frameCount) {
-                    callback();
-                }
-            };
+            video.addEventListener('loadedmetadata', setupVideoScrollTrigger);
         }
     }
 
-    // Initialize Canvas Size
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    function setupVideoScrollTrigger() {
+        const videoDuration = video.duration || 8;
+        video.currentTime = 0;
 
-    // Preload and initialize GSAP timeline
-    preloadImages(() => {
-        // Initial render of first frame once everything is loaded
-        renderFrame(0);
-
-        const scrollSequence = { frame: 0 };
-
-        // Pin presenting section and scrub through images
-        gsap.to(scrollSequence, {
-            frame: frameCount - 1,
-            snap: "frame",
+        // Pin presenting section and scrub through the video timeline
+        gsap.to(video, {
+            currentTime: videoDuration,
             ease: "none",
             scrollTrigger: {
                 trigger: "#apresentacao",
                 start: "top top",
-                end: "+=200%",
-                scrub: 0.5,
+                end: "+=300%", // Scroll distance for scrubbing (300% viewport height)
+                scrub: 0.1,    // Very responsive but smooth scrubbing
                 pin: true,
-                onUpdate: () => {
-                    renderFrame(Math.round(scrollSequence.frame));
-                }
+                invalidateOnRefresh: true
             }
         });
 
@@ -229,7 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrub: true
             }
         });
-    });
+    }
+
+    initVideoScrub();
 
     /* ==========================================================================
        DYNAMIC IMAGE ZOOM/PARALLAX ON SCROLL (Services Section)
@@ -300,6 +234,8 @@ ${mensagemProjeto}
     });
 
 });
+
+
 
 window.addEventListener('load', () => {
     if (window.location.hash) {
