@@ -191,6 +191,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    /* ==========================================================================
+       PORTFOLIO INFINITE CAROUSEL CLONING
+       ========================================================================== */
+    const portfolioTrack = document.getElementById('portfolio-track');
+    if (portfolioTrack) {
+        const originalCards = Array.from(portfolioTrack.children);
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            // Ensure any focusable element inside the clone is not keyboard focusable
+            clone.setAttribute('tabindex', '-1');
+            portfolioTrack.appendChild(clone);
+        });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

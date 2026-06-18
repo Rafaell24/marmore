@@ -1820,3 +1820,129 @@
             margin: 30px 0;
         }
     }
+
+    /* ==========================================================================
+       PORTFOLIO INFINITE HORIZONTAL CAROUSEL
+       ========================================================================== */
+    .portfolio-carousel-wrapper {
+        width: 100%;
+        margin-top: 30px;
+        margin-bottom: 80px;
+    }
+
+    .portfolio-carousel-container {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        padding: 30px 0; /* Space for box-shadows and translateY hover */
+    }
+
+    .portfolio-carousel-track {
+        display: flex;
+        flex-wrap: nowrap;
+        width: max-content;
+        animation: scroll-left 35s linear infinite;
+    }
+
+    /* Pause animation on hover */
+    .portfolio-carousel-track:hover {
+        animation-play-state: paused;
+    }
+
+    /* Infinite loop keyframes */
+    @keyframes scroll-left {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .portfolio-card {
+        display: flex;
+        flex-direction: column;
+        width: 320px;
+        margin-right: 30px;
+        background-color: var(--color-bg-card);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                    box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                    border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+
+    .portfolio-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        border-color: rgba(197, 168, 128, 0.35);
+    }
+
+    .portfolio-card-img-wrapper {
+        position: relative;
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+    }
+
+    .portfolio-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .portfolio-card:hover .portfolio-card-img {
+        transform: scale(1.1);
+    }
+
+    .portfolio-card-info {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex-grow: 1;
+    }
+
+    .portfolio-card-title {
+        font-family: var(--font-heading);
+        font-size: 1.2rem;
+        color: var(--color-text-light);
+        margin: 0;
+        font-weight: 600;
+        transition: color 0.3s ease;
+        letter-spacing: 0.5px;
+    }
+
+    .portfolio-card:hover .portfolio-card-title {
+        color: var(--color-primary);
+    }
+
+    .portfolio-card-desc {
+        font-family: var(--font-body);
+        font-size: 0.88rem;
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* Responsiveness adjustments for Carousel */
+    @media (max-width: 768px) {
+        .portfolio-carousel-wrapper {
+            margin-bottom: 60px;
+        }
+        .portfolio-card {
+            width: 280px;
+            margin-right: 20px;
+        }
+        .portfolio-card-img-wrapper {
+            height: 190px;
+        }
+        .portfolio-card-title {
+            font-size: 1.1rem;
+        }
+    }

@@ -12,5 +12,8 @@
     "premium"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "swup": "^4.9.2"
+  }
 }
