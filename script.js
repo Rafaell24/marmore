@@ -1,94 +1,107 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
+    // Initial run of page content on first direct load
+    initPageContent();
 
-    /* ==========================================================================
-       STICKY / CAPSULE NAVBAR SCROLL EFFECT
-       ========================================================================== */
-    const navbar = document.getElementById('main-navbar');
+    // Configure Swup v4
+    if (typeof Swup !== 'undefined') {
+        const swupOptions = {
+            // Enable native View Transitions API when supported
+            native: true,
+            // Match the main container id
+            containers: ['#swup']
+        };
 
-    function checkNavbarScroll() {
-        if (window.scrollY > 40) {
-            navbar.classList.add('is-scrolled');
-        } else {
-            navbar.classList.remove('is-scrolled');
+        // Inject Preload Plugin if loaded
+        if (typeof SwupPreloadPlugin !== 'undefined') {
+            swupOptions.plugins = [new SwupPreloadPlugin()];
         }
+
+        const swup = new Swup(swupOptions);
+
+        // Run page initializers after each content replace/transition
+        swup.hooks.on('page:view', () => {
+            initPageContent();
+            
+            // Re-trigger ScrollTrigger refresh to recalculate page geometry
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+            }
+        });
+    }
+});
+
+/* ==========================================================================
+   PAGE RE-INITIALIZER
+   ========================================================================== */
+function initPageContent() {
+    // Kill existing ScrollTriggers to prevent layout/scroll stutters
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     }
 
-    // Initial check in case of page refresh/reload while scrolled
-    checkNavbarScroll();
-    window.addEventListener('scroll', checkNavbarScroll);
+    initMobileMenu();
+    initScrollReveals();
+    initVideoScrub();
+    initPortfolioCarousel();
+    initContactForm();
 
-    /* ==========================================================================
-       MOBILE MENU TOGGLE
-       ========================================================================== */
+    // Check navbar states immediately
+    checkNavbarScroll();
+    highlightActiveLink();
+    handleScrollZoom();
+}
+
+/* ==========================================================================
+   MOBILE MENU TOGGLE
+   ========================================================================== */
+function initMobileMenu() {
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const navLinksList = document.querySelectorAll('.nav-link');
 
-    mobileMenuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('is-active');
-        // Toggle icon between hamburger and close
+    if (mobileMenuToggle && navMenu) {
+        // Reset state on load
+        navMenu.classList.remove('is-active');
         const icon = mobileMenuToggle.querySelector('i');
-        if (navMenu.classList.contains('is-active')) {
-            icon.className = 'fa-solid fa-xmark';
-        } else {
-            icon.className = 'fa-solid fa-bars-staggered';
-        }
-    });
+        if (icon) icon.className = 'fa-solid fa-bars-staggered';
 
-    // Close menu when clicking a link
-    navLinksList.forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('is-active');
-            mobileMenuToggle.querySelector('i').className = 'fa-solid fa-bars-staggered';
-        });
-    });
-
-    /* ==========================================================================
-       ACTIVE LINK HIGHLIGHT ON SCROLL
-       ========================================================================== */
-    const sections = document.querySelectorAll('section');
-
-    function highlightActiveLink() {
-        let scrollPosition = window.scrollY + 200; // Offset for triggers
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                navLinksList.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('is-active');
+            if (navMenu.classList.contains('is-active')) {
+                icon.className = 'fa-solid fa-xmark';
+            } else {
+                icon.className = 'fa-solid fa-bars-staggered';
             }
         });
+
+        // Close menu when clicking a link
+        navLinksList.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('is-active');
+                if (icon) icon.className = 'fa-solid fa-bars-staggered';
+            });
+        });
     }
+}
 
-    window.addEventListener('scroll', highlightActiveLink);
-
-    /* ==========================================================================
-       INTERSECTION OBSERVER FOR SCROLL REVEALS
-       ========================================================================== */
+/* ==========================================================================
+   INTERSECTION OBSERVER FOR SCROLL REVEALS
+   ========================================================================== */
+function initScrollReveals() {
     const revealElements = document.querySelectorAll(
         '.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .reveal-scale'
     );
 
     const observerOptions = {
-        root: null, // viewport
-        threshold: 0.1, // trigger when 10% is visible
-        rootMargin: '0px 0px -50px 0px' // offset bottom slightly
+        root: null,
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('in-view');
-                // Once it is revealed, we can stop observing it
                 observer.unobserve(entry.target);
             }
         });
@@ -97,32 +110,31 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(element => {
         revealObserver.observe(element);
     });
+}
 
-    /* ==========================================================================
-       GSAP + VIDEO HERO SCROLL SEQUENCE
-       ========================================================================== */
-    gsap.registerPlugin(ScrollTrigger);
-
+/* ==========================================================================
+   GSAP + VIDEO HERO SCROLL SEQUENCE
+   ========================================================================== */
+function initVideoScrub() {
     const video = document.getElementById('hero-video');
+    if (!video) return;
 
-    function initVideoScrub() {
-        if (!video) return;
+    // Ensure video is muted and paused
+    video.muted = true;
+    video.pause();
 
-        // Ensure video is muted and paused
-        video.muted = true;
-        video.pause();
-
-        if (video.readyState >= 1) {
-            setupVideoScrollTrigger();
-        } else {
-            video.addEventListener('loadedmetadata', setupVideoScrollTrigger);
-        }
+    if (video.readyState >= 1) {
+        setupVideoScrollTrigger(video);
+    } else {
+        video.addEventListener('loadedmetadata', () => setupVideoScrollTrigger(video));
     }
+}
 
-    function setupVideoScrollTrigger() {
-        const videoDuration = video.duration || 8;
-        video.currentTime = 0;
+function setupVideoScrollTrigger(video) {
+    const videoDuration = video.duration || 8;
+    video.currentTime = 0;
 
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         // Pin presenting section and scrub through the video timeline
         gsap.to(video, {
             currentTime: videoDuration,
@@ -130,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollTrigger: {
                 trigger: "#apresentacao",
                 start: "top top",
-                end: "+=300%", // Scroll distance for scrubbing (300% viewport height)
+                end: "+=300%", // Scroll distance for scrubbing
                 scrub: 0.1,    // Very responsive but smooth scrubbing
                 pin: true,
                 invalidateOnRefresh: true
@@ -162,55 +174,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+}
 
-    initVideoScrub();
-
-    /* ==========================================================================
-       DYNAMIC IMAGE ZOOM/PARALLAX ON SCROLL (Services Section)
-       ========================================================================== */
-    const scrollZoomImages = document.querySelectorAll('.scroll-zoom');
-
-    window.addEventListener('scroll', () => {
-        scrollZoomImages.forEach(img => {
-            const rect = img.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
-
-            // Check if image is within the visible viewport
-            if (rect.top < viewHeight && rect.bottom > 0) {
-                // Calculate percentage of element progression in viewport (0 to 1)
-                const totalProgressDistance = viewHeight + rect.height;
-                const progressPercentage = (viewHeight - rect.top) / totalProgressDistance;
-
-                // Fine-tune scale: range from 1.0 to 1.08
-                const scaleAmount = 1 + (progressPercentage * 0.08);
-
-                // Fine-tune vertical shift for slow parallax effect (range: -15px to 15px)
-                const translateYAmount = (progressPercentage - 0.5) * 30;
-
-                img.style.transform = `scale(${scaleAmount}) translateY(${translateYAmount}px)`;
-            }
-        });
-    });
-
-    /* ==========================================================================
-       PORTFOLIO INFINITE CAROUSEL CLONING
-       ========================================================================== */
+/* ==========================================================================
+   PORTFOLIO INFINITE CAROUSEL CLONING
+   ========================================================================== */
+function initPortfolioCarousel() {
     const portfolioTrack = document.getElementById('portfolio-track');
     if (portfolioTrack) {
-        const originalCards = Array.from(portfolioTrack.children);
+        // Filter out clones to prevent infinite duplicating if re-run
+        const originalCards = Array.from(portfolioTrack.children).filter(
+            card => !card.hasAttribute('aria-hidden')
+        );
+        
+        // Clear track and re-append original cards to ensure clean state
+        portfolioTrack.innerHTML = '';
+        originalCards.forEach(card => {
+            portfolioTrack.appendChild(card);
+        });
+
+        // Clone and append to create the perfect duplicate loop
         originalCards.forEach(card => {
             const clone = card.cloneNode(true);
             clone.setAttribute('aria-hidden', 'true');
-            // Ensure any focusable element inside the clone is not keyboard focusable
             clone.setAttribute('tabindex', '-1');
             portfolioTrack.appendChild(clone);
         });
     }
-});
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-
+/* ==========================================================================
+   CONTACT FORM SUBMISSION TO WHATSAPP
+   ========================================================================== */
+function initContactForm() {
     const form = document.getElementById('quote-form');
+    if (!form) return;
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -239,23 +237,71 @@ document.addEventListener('DOMContentLoaded', () => {
 ${mensagemProjeto}
 `;
 
-        const numeroWhatsapp = '5511975030220'; // Seu número
-
+        const numeroWhatsapp = '5511975030220';
         const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
 
         window.open(url, '_blank');
-
         form.reset();
     });
+}
 
-});
+/* ==========================================================================
+   GLOBAL LISTENERS AND UTILITIES
+   ========================================================================== */
+function checkNavbarScroll() {
+    const navbar = document.getElementById('main-navbar');
+    if (!navbar) return;
 
+    if (window.scrollY > 40) {
+        navbar.classList.add('is-scrolled');
+    } else {
+        navbar.classList.remove('is-scrolled');
+    }
+}
 
+function highlightActiveLink() {
+    const navbar = document.getElementById('main-navbar');
+    if (!navbar) return;
 
-window.addEventListener('load', () => {
+    const sections = document.querySelectorAll('section');
+    const navLinksList = navbar.querySelectorAll('.nav-link');
+    let scrollPosition = window.scrollY + 200; // Offset for triggers
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            navLinksList.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}` || link.getAttribute('href') === `index.html#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+}
+
+function handleScrollZoom() {
+    const scrollZoomImages = document.querySelectorAll('.scroll-zoom');
+    scrollZoomImages.forEach(img => {
+        const rect = img.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+
+        if (rect.top < viewHeight && rect.bottom > 0) {
+            const totalProgressDistance = viewHeight + rect.height;
+            const progressPercentage = (viewHeight - rect.top) / totalProgressDistance;
+            const scaleAmount = 1 + (progressPercentage * 0.08);
+            const translateYAmount = (progressPercentage - 0.5) * 30;
+            img.style.transform = `scale(${scaleAmount}) translateY(${translateYAmount}px)`;
+        }
+    });
+}
+
+function handleHashScroll() {
     if (window.location.hash) {
         const target = document.querySelector(window.location.hash);
-
         if (target) {
             setTimeout(() => {
                 target.scrollIntoView({
@@ -265,6 +311,16 @@ window.addEventListener('load', () => {
             }, 500);
         }
     }
+}
+
+// Global window event listeners (registered once)
+function handleGlobalScroll() {
+    checkNavbarScroll();
+    highlightActiveLink();
+    handleScrollZoom();
+}
+window.addEventListener('scroll', handleGlobalScroll);
+
+window.addEventListener('load', () => {
+    handleHashScroll();
 });
-
-
