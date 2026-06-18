@@ -18,37 +18,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const swup = new Swup(swupOptions);
 
-        // Run page initializers after each content replace/transition
+        // Run non-GSAP page initializers after content is replaced
         swup.hooks.on('page:view', () => {
-            initPageContent();
-            
-            // Re-trigger ScrollTrigger refresh to recalculate page geometry
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh();
-            }
+            initNonGsapContent();
+        });
+
+        // Run GSAP initializers only after the transition animation is complete and stable
+        swup.hooks.on('visit:end', () => {
+            initGsapContent();
         });
     }
 });
 
 /* ==========================================================================
-   PAGE RE-INITIALIZER
+   PAGE RE-INITIALIZERS
    ========================================================================== */
+// Centralized function to initialize all content on first page load
 function initPageContent() {
-    // Kill existing ScrollTriggers to prevent layout/scroll stutters
-    if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    }
+    initNonGsapContent();
+    initGsapContent();
+}
 
+// Initialize static components immediately when DOM is replaced
+function initNonGsapContent() {
     initMobileMenu();
     initScrollReveals();
-    initVideoScrub();
     initPortfolioCarousel();
     initContactForm();
 
     // Check navbar states immediately
     checkNavbarScroll();
     highlightActiveLink();
+}
+
+// Initialize dynamic layout/scroll-dependent elements after transition completes
+function initGsapContent() {
+    // Kill existing ScrollTriggers to prevent layout/scroll stutters
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    }
+
+    initVideoScrub();
     handleScrollZoom();
+    
+    // Recalculate ScrollTrigger positions
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+    }
 }
 
 /* ==========================================================================
