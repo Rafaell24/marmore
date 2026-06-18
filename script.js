@@ -65,6 +65,9 @@ function initGsapContent() {
     if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.refresh();
     }
+
+    // Scroll to URL hash target after ScrollTrigger has updated positions
+    handleHashScroll();
 }
 
 /* ==========================================================================
