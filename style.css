@@ -1842,23 +1842,14 @@
         display: flex;
         flex-wrap: nowrap;
         width: max-content;
-        animation: scroll-left 35s linear infinite;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-drag: none;
+        touch-action: pan-y;
     }
 
-    /* Pause animation on hover */
-    .portfolio-carousel-track:hover {
-        animation-play-state: paused;
-    }
-
-    /* Infinite loop keyframes */
-    @keyframes scroll-left {
-        0% {
-            transform: translateX(0);
-        }
-
-        100% {
-            transform: translateX(-50%);
-        }
+    .portfolio-carousel-track.grabbing {
+        cursor: grabbing;
     }
 
     .portfolio-card {
@@ -1896,6 +1887,7 @@
         height: 100%;
         object-fit: cover;
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        pointer-events: none;
     }
 
     .portfolio-card:hover .portfolio-card-img {

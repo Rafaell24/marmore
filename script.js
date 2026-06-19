@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ==========================================================================
    PAGE RE-INITIALIZERS
    ========================================================================== */
+let portfolioAnimFrameId = null;
+
 // Centralized function to initialize all content on first page load
 function initPageContent() {
     initNonGsapContent();
@@ -60,7 +62,7 @@ function initGsapContent() {
 
     initVideoScrub();
     handleScrollZoom();
-    
+
     // Recalculate ScrollTrigger positions
     if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.refresh();
@@ -200,26 +202,146 @@ function setupVideoScrollTrigger(video) {
    ========================================================================== */
 function initPortfolioCarousel() {
     const portfolioTrack = document.getElementById('portfolio-track');
-    if (portfolioTrack) {
-        // Filter out clones to prevent infinite duplicating if re-run
-        const originalCards = Array.from(portfolioTrack.children).filter(
-            card => !card.hasAttribute('aria-hidden')
-        );
-        
-        // Clear track and re-append original cards to ensure clean state
-        portfolioTrack.innerHTML = '';
-        originalCards.forEach(card => {
-            portfolioTrack.appendChild(card);
-        });
-
-        // Clone and append to create the perfect duplicate loop
-        originalCards.forEach(card => {
-            const clone = card.cloneNode(true);
-            clone.setAttribute('aria-hidden', 'true');
-            clone.setAttribute('tabindex', '-1');
-            portfolioTrack.appendChild(clone);
-        });
+    if (!portfolioTrack) {
+        if (portfolioAnimFrameId) {
+            cancelAnimationFrame(portfolioAnimFrameId);
+            portfolioAnimFrameId = null;
+        }
+        return;
     }
+
+    if (portfolioAnimFrameId) {
+        cancelAnimationFrame(portfolioAnimFrameId);
+    }
+
+    // 1. Clone cards for infinite loop setup
+    const originalCards = Array.from(portfolioTrack.children).filter(
+        card => !card.hasAttribute('aria-hidden')
+    );
+    
+    portfolioTrack.innerHTML = '';
+    originalCards.forEach(card => {
+        portfolioTrack.appendChild(card);
+    });
+
+    originalCards.forEach(card => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        clone.setAttribute('tabindex', '-1');
+        portfolioTrack.appendChild(clone);
+    });
+
+    // 2. Drag & Loop Variables
+    let isDragging = false;
+    let isHovered = false;
+    let startX = 0;
+    let startTranslate = 0;
+    let currentTranslate = 0;
+    let moved = false;
+    
+    let halfTrackWidth = portfolioTrack.scrollWidth / 2;
+
+    portfolioTrack._recalcWidth = () => {
+        halfTrackWidth = portfolioTrack.scrollWidth / 2;
+    };
+
+    // 3. Animation Loop (requestAnimationFrame)
+    let lastTime = 0;
+    const pxPerMs = 0.05; // speed parameter
+
+    function animateCarousel(time) {
+        if (!lastTime) lastTime = time;
+        const dt = time - lastTime;
+        lastTime = time;
+
+        if (!isDragging && !isHovered) {
+            currentTranslate -= pxPerMs * dt;
+            
+            if (currentTranslate <= -halfTrackWidth) {
+                currentTranslate += halfTrackWidth;
+            }
+            
+            portfolioTrack.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        portfolioAnimFrameId = requestAnimationFrame(animateCarousel);
+    }
+    portfolioAnimFrameId = requestAnimationFrame(animateCarousel);
+
+    // 4. Hover Listeners
+    portfolioTrack.addEventListener('mouseenter', () => {
+        isHovered = true;
+    });
+    portfolioTrack.addEventListener('mouseleave', () => {
+        isHovered = false;
+        if (isDragging) {
+            isDragging = false;
+            portfolioTrack.classList.remove('grabbing');
+        }
+    });
+
+    // Helper functions
+    function getPositionX(e) {
+        return e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    }
+
+    // 5. Drag event handlers
+    const dragStart = (e) => {
+        isDragging = true;
+        moved = false;
+        startX = getPositionX(e);
+        startTranslate = currentTranslate;
+        portfolioTrack.classList.add('grabbing');
+        
+        if (e.type === 'mousedown') {
+            e.preventDefault();
+        }
+    };
+
+    const dragMove = (e) => {
+        if (!isDragging) return;
+        const currentX = getPositionX(e);
+        const dx = currentX - startX;
+        
+        if (Math.abs(dx) > 5) {
+            moved = true;
+        }
+
+        currentTranslate = startTranslate + dx;
+        
+        while (currentTranslate > 0) {
+            currentTranslate -= halfTrackWidth;
+        }
+        while (currentTranslate < -halfTrackWidth) {
+            currentTranslate += halfTrackWidth;
+        }
+
+        portfolioTrack.style.transform = `translateX(${currentTranslate}px)`;
+    };
+
+    const dragEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        portfolioTrack.classList.remove('grabbing');
+    };
+
+    // Mouse events
+    portfolioTrack.addEventListener('mousedown', dragStart);
+    portfolioTrack.addEventListener('mousemove', dragMove);
+    portfolioTrack.addEventListener('mouseup', dragEnd);
+
+    // Touch events (mobile swipe)
+    portfolioTrack.addEventListener('touchstart', dragStart, { passive: true });
+    portfolioTrack.addEventListener('touchmove', dragMove, { passive: true });
+    portfolioTrack.addEventListener('touchend', dragEnd);
+
+    // 6. Click Interception during drag
+    portfolioTrack.addEventListener('click', (e) => {
+        if (moved) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }, true);
 }
 
 /* ==========================================================================
@@ -340,6 +462,18 @@ function handleGlobalScroll() {
 }
 window.addEventListener('scroll', handleGlobalScroll);
 
+function handleGlobalResize() {
+    const portfolioTrack = document.getElementById('portfolio-track');
+    if (portfolioTrack && portfolioTrack._recalcWidth) {
+        portfolioTrack._recalcWidth();
+    }
+}
+window.addEventListener('resize', handleGlobalResize);
+
 window.addEventListener('load', () => {
     handleHashScroll();
 });
+
+
+
+
